@@ -1,5 +1,6 @@
 <script>
     import {v4 as uuidv4} from 'uuid'
+    import { FeedbackStore } from '../stores/store';
     import { createEventDispatcher } from 'svelte';
     import Button   from "./Button.svelte";
     import Card from "./Card.svelte";
@@ -12,7 +13,6 @@
     let rating = 10
     
     const dispatch = createEventDispatcher()
-
     const handleSelect = e => rating = e.detail
 
     const handleInput = () => {
@@ -34,7 +34,12 @@
                 text:text,
                 rating: +rating
             }
-            dispatch('add-feedback',newFeedback)
+            console.log([newFeedback, ...$FeedbackStore])
+
+            // dispatch('add-feedback',newFeedback)
+            FeedbackStore.update((currentFeedback) => {
+                return [newFeedback, ...currentFeedback]
+            })
             
             text = ''
         }
@@ -50,18 +55,19 @@
     </header>
 
 
+
     <form on:submit|preventDefault = {handleSubmit}>
-        <RatingSelect on:rating-select={handleSelect} />
-        <div class="input-group">
-            <input type="text" placeholder="Tell us your feedback" on:input={handleInput} bind:value={text}>
-            <Button  disabled={btnDisabled} type="submit" >Send</Button>
-        </div>
-        {#if message}
-            <div class="message">
-                {message}
-            </div>
-        {/if}
-    </form>
+      <RatingSelect on:rating-select={handleSelect} />
+      <div class="input-group">
+          <input type="text" placeholder="Enter feedback here..." on:input={handleInput} bind:value={text}>
+          <Button  disabled={btnDisabled} type="submit" >Send</Button>
+      </div>
+      {#if message}
+          <div class="message">
+              {message}
+          </div>
+      {/if}
+  </form>
 
 </Card>
 
@@ -80,14 +86,15 @@
         display: flex;
         flex-direction: row;
         border: 1px solid #ccc;
-        padding: 8px 10px;
+        padding: 8px 0px;
         border-radius: 8px;
         margin-top: 15px; 
     }
     input{
-        flex-grow: 2;
+        flex-grow: 1;
         border: none;
         font-size: 16px;
+        padding: 10px;
     }
     input:focus {
     outline: none;
@@ -96,6 +103,7 @@
   .message{
     padding-top: 10px;
     text-align: center;
+    font-weight: bold;
     color: rebeccapurple;
   }
 </style>

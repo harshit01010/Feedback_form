@@ -10,7 +10,6 @@
         selected = e.currentTarget.value
         dispatch('rating-select',selected)
     }
-    console.log(numbers)
 </script>
 
 <ul class="rating">
@@ -26,8 +25,9 @@
     .rating{
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        /* justify-content: space-around; */
         margin: 30px 0;
+        flex-wrap: wrap;
     }
     .rating li{
         position: relative;
@@ -40,9 +40,10 @@
         font-size: 19px;
         border: 1px #eee solid;
         transition: 0.3s;
-        margin: 0 5px;
+        margin: 10px 5px;
     }
     .rating li label{
+     
         position: absolute;
         top: 50%;
         left: 50%;
@@ -52,6 +53,11 @@
         border-radius: 50%;
         transform: translate(-50%,-50%);
         cursor: pointer;
+    }
+    @media only screen and (max-width: 768px) {
+        .rating{
+            justify-content: center;
+        }
     }
     .rating li:hover{
         background: #ff6a95;

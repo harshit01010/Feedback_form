@@ -3,43 +3,17 @@
   import FeedbackForm from './components/FeedbackForm.svelte';
   import FeedbackList from './components/FeedbackList.svelte';
   import FeedbackStats from './components/FeedbackStats.svelte';
-
-  let feedback = [
-    {
-      'id':1,
-      'rating' :10,
-      'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porta leo odio, vitae rhoncus augue gravida nec. Curabitur aliquet aliquet tortor sit amet consectetur.',
-    },
-    {
-      'id':2,
-      'rating' :8,
-      'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porta leo odio, vitae rhoncus augue gravida nec. Curabitur aliquet aliquet tortor sit amet consectetur.',
-    },
-    {
-      'id':3,
-      'rating' :9,
-      'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porta leo odio, vitae rhoncus augue gravida nec. Curabitur aliquet aliquet tortor sit amet consectetur.',
-    }
-  ]
-
-  $: count = feedback.length;
-  $: average = count !== 0 ? feedback.reduce((a,{rating}) => a + rating , 0) / count : 0;
-  
-  const deleteFeedback = (e) => {
-    const itemId = e.detail
-    feedback = feedback.filter((item) => item.id !== itemId)
-  }
-  const addFeedback = (e) => {
-    const newFeedback = e.detail
-    feedback = [newFeedback, ...feedback]
-  } 
+  // import Header from './components/Header.svelte';
 </script>
 
 <main>
+  <!-- <Header /> -->
   <main class="container">
-    <FeedbackForm on:add-feedback={addFeedback} />
-    <FeedbackStats {count} {average} />
-    <FeedbackList feedbacks ={feedback} on:delete-feedback={deleteFeedback}/>
+    <!-- <FeedbackForm on:add-feedback={addFeedback} /> -->
+    <FeedbackForm />
+    <FeedbackStats />
+    <!-- <FeedbackList on:delete-feedback={deleteFeedback}/> -->
+    <FeedbackList />
   </main>
   
 </main>

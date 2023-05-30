@@ -1,6 +1,8 @@
 <script>
-export let count
-export let average
+import { FeedbackStore } from "../stores/store";
+
+$: count = $FeedbackStore.length;
+$: average = count !== 0 ? $FeedbackStore.reduce((a,{rating}) => a + rating , 0) / count : 0;
 </script>
 
 
@@ -14,5 +16,6 @@ export let average
         display: flex;
         justify-content: space-between;
         align-items: center;
+        color: white;
     }
 </style>
