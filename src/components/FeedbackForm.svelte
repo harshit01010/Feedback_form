@@ -5,6 +5,7 @@
     import Button   from "./Button.svelte";
     import Card from "./Card.svelte";
     import RatingSelect from "./RatingSelect.svelte";
+    const isloggedin = sessionStorage.getItem('user') !== null ? true : false
 
     let text = ''
     let btnDisabled = true
@@ -14,15 +15,21 @@
     
     const dispatch = createEventDispatcher()
     const handleSelect = e => rating = e.detail
-
+    const user = sessionStorage.getItem('user')
     const handleInput = () => {
-        if(text.trim().length <= min){
-            message = `Text must be atleast ${min} characters`
-            btnDisabled = true
+        if(user===null)
+        {
+            message = `Log in first!`
         }
         else{
-            message = null
-            btnDisabled = false
+            if(text.trim().length <= min){
+                message = `Text must be atleast ${min} characters`
+                btnDisabled = true
+            }
+            else{
+                message = null
+                btnDisabled = false
+            }
         }
     }
 
@@ -50,17 +57,15 @@
 <Card>
     <header>
         <h2>
-            <!-- Give us your valuable feedback -->
+            Give us your valuable feedback
         </h2>
     </header>
-
-
 
     <form on:submit|preventDefault = {handleSubmit}>
       <RatingSelect on:rating-select={handleSelect} />
       <div class="input-group">
           <input type="text" placeholder="Enter feedback here..." on:input={handleInput} bind:value={text}>
-          <Button  disabled={btnDisabled} type="submit" >Send</Button>
+          <Button  disabled={btnDisabled} type="submit" on:btn-send={handleSubmit}>Send</Button>
       </div>
       {#if message}
           <div class="message">
@@ -91,10 +96,11 @@
         margin-top: 15px; 
     }
     input{
-        flex-grow: 1;
+        flex-grow: 2;
         border: none;
         font-size: 16px;
         padding: 10px;
+        border-radius: 10px;
     }
     input:focus {
     outline: none;
